@@ -15,7 +15,7 @@ class TaskA(luigi.Task):
 
 class TaskB(luigi.Task):
     def requires(self):
-        return None
+        return TaskA()
 
     def output(self):
         return luigi.LocalTarget('task_b')
@@ -62,6 +62,9 @@ class MyTaskC(TaskC):
 class MyTaskD(TaskD):
     def requires(self):
         return MyTaskC()
+    
+    def output(self):
+        return luigi.LocalTarget(self.input().path + '.task_d')
 
 
 if __name__ == '__main__':
